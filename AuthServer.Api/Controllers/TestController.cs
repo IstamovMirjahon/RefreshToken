@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace AuthServer.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TestController : ControllerBase
     {
@@ -31,6 +31,12 @@ namespace AuthServer.Api.Controllers
             response += $"{Environment.NewLine}Exp Time: {jwt.ValidTo.ToLongTimeString()}, Time: {DateTime.UtcNow.ToLongTimeString()}";
 
             return Ok(response);
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetOk()
+        {
+            return Ok("yaxshi");
         }
     }
 }

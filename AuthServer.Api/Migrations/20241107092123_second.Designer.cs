@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthServer.Api.Migrations
 {
     [DbContext(typeof(AuthDemoDbContext))]
-    [Migration("20240203122046_initial")]
-    partial class initial
+    [Migration("20241107092123_second")]
+    partial class second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -146,7 +146,7 @@ namespace AuthServer.Api.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+                    b.HasDiscriminator().HasValue("IdentityUser");
 
                     b.UseTphMappingStrategy();
                 });
@@ -232,7 +232,7 @@ namespace AuthServer.Api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AuthServer.Api.Controllers.ExtendedIdentityUser", b =>
+            modelBuilder.Entity("AuthServer.Api.Models.ExtendedIdentityUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 

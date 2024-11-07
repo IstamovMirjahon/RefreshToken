@@ -84,10 +84,12 @@ namespace AuthServer.Api.Services
             var validation = new TokenValidationParameters
             {
                 IssuerSigningKey = securityKey,
-                ValidateLifetime = false,
-                ValidateActor = false,
-                ValidateIssuer = false,
-                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateActor = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidIssuer = "Mirjahon",
+                ValidAudience = "Istamov",
             };
             return new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
         }
@@ -108,8 +110,11 @@ namespace AuthServer.Api.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,userName),
-                new Claim(ClaimTypes.Role,"Admin"),
+                new Claim(ClaimTypes.Name, userName),
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.NameIdentifier, userName),
+                new Claim(JwtRegisteredClaimNames.Aud, "Istamov"),
+                new Claim(JwtRegisteredClaimNames.Iss, "Mirjahon")
             };
 
             var staticKey = _config.GetSection("Jwt:Key").Value;
@@ -118,7 +123,7 @@ namespace AuthServer.Api.Services
 
             var securityToken = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddSeconds(20),
+                expires: DateTime.Now.AddSeconds(200),
                 signingCredentials: signingCred
                 );
 
